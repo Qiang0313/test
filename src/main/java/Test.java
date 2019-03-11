@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -6,9 +8,13 @@ import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
 public class Test {
+    @org.junit.Test
+    public void testGet(){
+        System.out.println(getHtmlString("https://mvnrepository.com/artifact/commons-io/commons-io/2.4"));
+    }
     /**
      * 获取网页源码
-     * @return
+     * @return String
      */
     private String getHtmlString(String targetUrl) {
         String content = null;
@@ -40,9 +46,9 @@ public class Test {
 
             if (200 == connection.getResponseCode()) {
                 InputStream inputStream = null;
-                if (!TextUtils.isEmpty(connection.getContentEncoding())) {
+                if (!StringUtils.isEmpty(connection.getContentEncoding())) {
                     String encode = connection.getContentEncoding().toLowerCase();
-                    if (!TextUtils.isEmpty(encode) && encode.indexOf("gzip") >= 0) {
+                    if (!StringUtils.isEmpty(encode) && encode.contains("gzip")) {
                         inputStream = new GZIPInputStream(connection.getInputStream());
                     }
                 }
